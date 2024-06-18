@@ -1,8 +1,9 @@
 ﻿@page "/"
 @rendermode InteractiveServer
 @inject CasoDeUsoExpedienteConsultaTodos ConsultaDeExpedientes
-
-
+@inject CasoDeUsoExpedienteBaja BajaExpediente
+@inject CasoDeUsoUsuarioObtener ObtenerUsuario
+@inject CasoDeUsoConsultaPorIdExpediente ConsultaIdExp
 <h1>Lista de Expedientes</h1>
 
 Estos son los expedientes de la base de datos
@@ -14,6 +15,7 @@ Estos son los expedientes de la base de datos
     <th>Tramites</th>
     <th>Fecha de creación</th>
     <th>Fecha de modificación</th>
+    <th>Eliminar?</th>
     </thead>
     <tbody>
     @foreach (var expediente in _expedientes)
@@ -21,23 +23,48 @@ Estos son los expedientes de la base de datos
         <tr>
             <td>@expediente.Id</td>
             <td>@expediente.IdUser</td>
-            <td><a href="/expediente/@expediente.Id/tramites"></a></td>
+            <td><a href="/expediente/@expediente.Id/tramites">@expediente.Id</a></td>
             <td>@expediente.FechaHoraCreacion</td>
             <td>@expediente.FechaHoraModificacion</td>
+            <td><button class="btn btn-primary" @onclick="()=>Mostrar(expediente.Id)">Eliminar</button></td>
         </tr>
     }
     </tbody>
 </table>
+
+<DialogoConfirmacion @ref=_dialogo Mensaje="Esto eliminara el expediente y todos sus tramites, ¿Estas seguro?" Accion=Eliminar />
 @code{
 
     List<Expediente> _expedientes = new List<Expediente>();
 
+    DialogoConfirmacion? _dialogo = null!;
+    int ExpedienteId = 0;
+    
     protected override void OnInitialized()
     {
         {
             _expedientes = ConsultaDeExpedientes.Ejecutar();
         }
+    }
 
+    void Mostrar(int Id)
+    {
+        ExpedienteId = Id;
+        _dialogo.Mostrar();
+        
+    }
+    void Eliminar()
+    {
+        try
+        {
+            
+            BajaExpediente.Ejecutar(ConsultaIdExp.Ejecutar(ExpedienteId), ObtenerUsuario.Ejecutar()); 
+            _expedientes = ConsultaDeExpedientes.Ejecutar();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(" * ERROR " + e.Message);
+        }
     }
     
 }
