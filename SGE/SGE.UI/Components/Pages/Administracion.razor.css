@@ -1,4 +1,4 @@
-.tabla-expediente {
+.tabla-usuarios {
     border-collapse: separate;
     border-spacing: 0;
     border-radius: 10px;
@@ -6,17 +6,17 @@
     width: 100%;
 }
 
-.tabla-expediente th {
+.tabla-usuarios th {
     background-color: #6c7ae0;
     color: white;
     font-weight: bold;
     padding: 0.5rem;
 }
 
-.tabla-expediente td {
+.tabla-usuarios td {
     padding: 0.5rem;
-    
+
 }
-.tabla-expediente tr:nth-child(even) td {
+.tabla-usuarios tr:nth-child(even) td {
     background-color: #f2f2f2;
 }
