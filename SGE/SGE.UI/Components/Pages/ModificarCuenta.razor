@@ -39,7 +39,6 @@
     </div>
 </div>
 
-<DialogoNotificacion @ref=_dialogoNotificacion Mensaje="Los cambios se guardaron correctamente" Accion=Aceptar />
 <DialogoNotificacion @ref=_dialogoNotificacion Mensaje=@_error Accion=Aceptar />
 @code{
     Usuario _usuario = new Usuario();
@@ -54,7 +53,8 @@
     {
         try
         {
-            cduModificar.Ejecutar(_usuario);
+            cduModificar.Ejecutar(_usuario); 
+            _error = "Los cambios se guardaron correctamente";
             _dialogoNotificacion?.Mostrar();
         }
         catch(Exception e)

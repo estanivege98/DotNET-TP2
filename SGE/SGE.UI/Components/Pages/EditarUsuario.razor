@@ -4,23 +4,29 @@
 @inject NavigationManager Navegador
 @inject CasoDeUsoUsuarioModificar ModificarUsuario
 @inject CasoDeUsoUsuarioConsultaPorID cduObtener
-<div class="opciones">
-<input placeholder="Nombre" @bind="_usuario.Nombre" class="form-control">
-<input placeholder="Apellido" @bind="_usuario.Apellido" class="form-control">
-<input placeholder="Email" @bind="_usuario.Email" class="form-control">
-<select multiple class="form-control" @onchange="ActualizarPermisos">
-    @foreach (var permiso in Enum.GetValues(typeof(Permiso)))
-    {
-    <option value="@permiso">@permiso</option>
-    }
-</select>
-<button class="btn btn-primary" @onclick="Aceptar">Aceptar</button>
-</div>
-<br/>
+@inject CasoDeUsoUsuarioObtener ObtenerUsuario
 
-<div class="importante">
-    <h3>Importante: </h3><p>Para seleccionar multiples permisos, mantenga apretada la tecla CTRL (Windows) o Command (Mac Os)</p>
-</div>
+@if (ObtenerUsuario.Ejecutar()!.Id == 1)
+{
+
+    <div class="opciones">
+        <input placeholder="Nombre" @bind="_usuario.Nombre" class="form-control">
+        <input placeholder="Apellido" @bind="_usuario.Apellido" class="form-control">
+        <input placeholder="Email" @bind="_usuario.Email" class="form-control">
+        <select multiple class="form-control" @onchange="ActualizarPermisos">
+            @foreach (var permiso in Enum.GetValues(typeof(Permiso)))
+            {
+                <option value="@permiso">@permiso</option>
+            }
+        </select>
+        <button class="btn btn-primary" @onclick="Aceptar">Aceptar</button>
+    </div>
+    <br/>
+
+    <div class="importante">
+        <h3>Importante: </h3>
+        <p>Para seleccionar multiples permisos, mantenga apretada la tecla CTRL (Windows) o Command (Mac Os)</p>
+    </div>
 
 @code {
     Usuario _usuario = new Usuario();
@@ -60,4 +66,10 @@
             _dialogoNotificacion.Mostrar();
         }
     }
+}
+}
+else
+{
+    <h1>No tiene permisos para acceder a esta pagina</h1>
+    <p>Por favor, selecciona una opcion del menu principal</p>
 }
