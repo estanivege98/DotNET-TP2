@@ -27,7 +27,7 @@
         <h3>Importante: </h3>
         <p>Para seleccionar multiples permisos, mantenga apretada la tecla CTRL (Windows) o Command (Mac Os)</p>
     </div>
-
+<DialogoNotificacion @ref="_dialogoNotificacion" Mensaje="@_error" Accion="Aceptar" />
 @code {
     Usuario _usuario = new Usuario();
     List<Permiso> _permisosSeleccionados = new List<Permiso>();
@@ -43,9 +43,17 @@
     {
         try
         {
-            _usuario.Permisos = _permisosSeleccionados;
-            ModificarUsuario.Ejecutar(_usuario, true);
-            Navegador.NavigateTo("/administracion");
+            if (_usuario.Id != 1)
+            {
+                _usuario.Permisos = _permisosSeleccionados;
+                ModificarUsuario.Ejecutar(_usuario, true);
+                Navegador.NavigateTo("/administracion");
+            }
+            else
+            {
+                _error = "No se puede modificar el usuario administrador";
+                _dialogoNotificacion.Mostrar();
+            }
         }
         catch(Exception e)
         {
@@ -58,7 +66,9 @@
         var selectedOptions = e.Value as IEnumerable<string>;
         try
         {
+            
             if (selectedOptions != null) _permisosSeleccionados = selectedOptions.Select(s => Enum.Parse<Permiso>(s)).ToList();
+            
         }
         catch(Exception ex)
         {
