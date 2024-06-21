@@ -8,7 +8,6 @@ namespace SGE.Aplicacion.CasosDeUso.Tramites
 {
     public class CasoDeUsoTramiteBaja(ITramiteRepositorio repo, 
         ServicioActualizacionEstado updater, 
-        IExpedienteRepositorio expRepo,
         IServicioAutorizacion SA)
     {
         

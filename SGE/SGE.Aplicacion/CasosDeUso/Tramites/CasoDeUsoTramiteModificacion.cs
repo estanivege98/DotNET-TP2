@@ -8,7 +8,6 @@ namespace SGE.Aplicacion.CasosDeUso.Tramites
 {
     public class CasoDeUsoTramiteModificacion(ITramiteRepositorio repo, 
         ServicioActualizacionEstado updater, 
-        IExpedienteRepositorio expRepo,
         ITramiteValidador TV,
         IServicioAutorizacion SA)
     {
